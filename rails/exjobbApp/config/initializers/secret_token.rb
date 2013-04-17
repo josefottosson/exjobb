@@ -4,4 +4,4 @@
 # If you change this key, all old signed cookies will become invalid!
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
-ExjobbApp::Application.config.secret_token = '89c7dcd495b07f17ad57144a88a6478bf15c73581f150e99df6b423caccae41a9d1c21b5c3606629e6a027a68fb0558d99529d4547f7aec08be0d8fc642f14b5'
+ExjobbApp::Application.config.secret_token = '5903df5a4bec5652f82aa44131ab8b3d5eeadf0132b8ca6e0f7daeea78527a3be20800fb2ba93bd05f8f39b75981e63cb46f4ea92d9608951e6681f1c431efc4'
