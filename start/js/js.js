@@ -17,6 +17,7 @@ var myApp = {
 		
 		function makeCall()
 		{
+			//
 			var operation = "GetAllPosts";
 			$.ajax({
 			    type: "GET",
@@ -38,6 +39,7 @@ var myApp = {
 				    console.log(data);
 				    console.log(endTime - startTime);
 				    times.push(row);
+				    console.log('Klar');
 			    },
 			    error: function(err) {
 			        console.log(err);
