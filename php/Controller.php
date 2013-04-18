@@ -28,6 +28,10 @@ class Controller {
 			Service::SelectAllPostsWhere();
 			break;
 
+			case "insert":
+			Service::SaveToDb($_POST["times"]);
+			break;
+
 			default:
 				return null;
 				break;

@@ -44,7 +44,25 @@ class Service {
 		CloseDb($conn);
 		echo "Hämtade rader: " . count($cities); 
 		return $cities;
+	}
+
+	public static function SaveToDb($postData)
+	{
+		$dbInfo = ConnectToDb();
+		$db = $dbInfo[0];
+		$conn = $dbInfo[1];
+		$collection = $db->selectCollection('testData');
+
+		$data = json_decode(json_encode($postData));
+
+		foreach ($data as $id => $item) 
+		{
+   			$collection->insert($item);
 		}
+
+		CloseDb($conn);
+		echo count($data) . " rader sparades i databasen";
+	}
 }
 
 ?>
