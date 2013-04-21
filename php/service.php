@@ -4,7 +4,7 @@ require_once('Connect.php');
 
 class Service {
 
-	public static function SelectAllPosts()
+	public static function GetAllCities()
 	{
 		$dbInfo = ConnectToDb();
 		$db = $dbInfo[0];
@@ -12,18 +12,12 @@ class Service {
 		$collection = $db->selectCollection('city');
 		$cities = array();
 		$cursor = $collection->find();
-		foreach ($cursor as $id => $obj) 
-		{
-	    	$city = new City($obj['city'], $obj['loc'], $obj['population'], $obj['state'], $obj['_id']);
-	    	array_push($cities, $city);
-		}
+
 		CloseDb($conn);
-		echo "Hämtade rader: " . count($cities); 
-		return $cities;
-				
+		echo "Hämtade rader: " . count($cursor); 
 	}
 
-	public static function SelectAllPostsWhere() 
+	public static function GetAllCitiesWhere() 
 	{
 		$dbInfo = ConnectToDb();
 		$db = $dbInfo[0];
@@ -35,15 +29,8 @@ class Service {
 		$cities = array();
 		$cursor = $collection->find( $query );
 
-		while( $cursor->hasNext() ) 
-		{
-    		$std = json_decode(json_encode($cursor->getNext()), FALSE);
-    		$city = new City($std->city, $std->loc, $std->population, $std->state, $std->_id);
-    		array_push($cities, $city);
-		}
 		CloseDb($conn);
-		echo "Hämtade rader: " . count($cities); 
-		return $cities;
+		echo "Hämtade rader: " . count($cursor); 
 	}
 
 	public static function SaveToDb($postData)

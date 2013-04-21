@@ -7,24 +7,45 @@ var myApp = {
 
 	makeAjaxCall: function()
 	{
+		var urlRequest = window.location.search;
+		var splitted = urlRequest.split('&');
+		var app = splitted[0].toUpperCase();
+			app = app.substring(1);
+		var method = splitted[1];
+
 		var startTime = "";
 		var endTime = "";
 		var totalTime = "";
-		var app = "PHP";
 		var times = [];
 		var i = 0;
-		makeCall();
-		
-		function makeCall()
+
+		var urlToCall = "";
+
+		switch(app)
 		{
-			//
-			var operation = "GetAllPosts";
+		case "PHP":
+		  urlToCall = "../../exjobb/";
+		  break;
+		case "RAILS":
+		  urlToCall = "http://localhost:3000/home/";
+		  break;
+		default:
+			console.log('Felaktig request');
+			return;
+		}
+
+			makeCall(urlToCall, method);
+		function makeCall(urlToCall, method)
+		{
+			var params = "url=" + urlToCall + method;
+			console.log(params);
 			$.ajax({
-			    type: "GET",
-			    url: "../../exjobb/AllPosts",
+			    type: "POST",
+			    url: "phpProxy.php",
+			    data: params,
 			    beforeSend: function()
 			    {
-			    	console.log('Startar');
+			    	console.log(app + ' -- Starting round ' + (i+1));
 			    	startTime = new Date().getTime();
 			    },
 			    success: function(data) {
@@ -32,24 +53,25 @@ var myApp = {
 				    totalTime = endTime - startTime;
 				   	var row = {};
 					row.app = app;
-					row.operation = operation;
+					row.operation = method;
 					row.totalTime = totalTime;
 					row.run = i+1;
 					row.date = new Date();
-				    console.log(data);
-				    console.log(endTime - startTime);
+				    console.log('Total time: ' + totalTime + 'ms');
 				    times.push(row);
-				    console.log('Klar');
+				    console.log('Round done');
 			    },
 			    error: function(err) {
+			    	console.log('Error');
 			        console.log(err);
 			    },
 			    complete: function()
 			    {
 			    	i++;
-			    	if(i < 3)
-			    	{	console.log(i);
-			    		makeCall();
+			    	if(i < 50)
+			    	{
+			    		console.log('Round: ' + i);
+			    		makeCall(urlToCall, method);
 					}
 					else
 					{
@@ -80,7 +102,8 @@ var myApp = {
         	console.log(err);
         }
 
-    });
+    	});
+
 	}
 };
 

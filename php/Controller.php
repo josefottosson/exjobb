@@ -20,12 +20,12 @@ class Controller {
 
 		switch($params) {
 
-			case "AllPosts":
-			Service::SelectAllPosts();
+			case "GetAllCities":
+			Service::GetAllCities();
 			break;
 
-			case "AllPostsWhere":
-			Service::SelectAllPostsWhere();
+			case "GetAllCitiesWhere":
+			Service::GetAllCitiesWhere();
 			break;
 
 			case "insert":
