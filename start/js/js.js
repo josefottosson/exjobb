@@ -24,7 +24,7 @@ var myApp = {
 		switch(app)
 		{
 		case "PHP":
-		  urlToCall = "../../exjobb/";
+		  urlToCall = "http://localhost/exjobb/";
 		  break;
 		case "RAILS":
 		  urlToCall = "http://localhost:3000/home/";
@@ -57,9 +57,10 @@ var myApp = {
 					row.totalTime = totalTime;
 					row.run = i+1;
 					row.date = new Date();
-				    console.log('Total time: ' + totalTime + 'ms');
+				    console.log('\tTotal time: ' + totalTime + 'ms');
 				    times.push(row);
-				    console.log('Round done');
+				    console.log(data);
+				    console.log('Round done\n');
 			    },
 			    error: function(err) {
 			    	console.log('Error');
@@ -70,7 +71,6 @@ var myApp = {
 			    	i++;
 			    	if(i < 50)
 			    	{
-			    		console.log('Round: ' + i);
 			    		makeCall(urlToCall, method);
 					}
 					else

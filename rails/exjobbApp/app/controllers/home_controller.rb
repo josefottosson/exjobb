@@ -4,11 +4,12 @@ class HomeController < ApplicationController
 
   def GetAllCities
   	
-  	render :nothing => true, :status => :ok, :text => "OK"
+  	@cities = City.all
+    render :text => @cities.length.to_s + " rader hämtades ifrån Databasen"
   end
 
   def GetAllCitiesWhere
-  	@cities = City.where(:state => 'AL').to_a
+  	@cities = City.where(:state => 'AL')
   	render :text => @cities.length.to_s + " rader hämtades ifrån Databasen"
   end
 

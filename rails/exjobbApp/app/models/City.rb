@@ -1,6 +1,5 @@
 class City
 	include Mongoid::Document
-	store_in collection: "city"
 	field :city, type: String
 	field :loc, type: Array
 	field :population, type: Integer

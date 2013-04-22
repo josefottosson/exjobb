@@ -9,12 +9,11 @@ class Service {
 		$dbInfo = ConnectToDb();
 		$db = $dbInfo[0];
 		$conn = $dbInfo[1];
-		$collection = $db->selectCollection('city');
-		$cities = array();
+		$collection = $db->selectCollection('cities');
 		$cursor = $collection->find();
 
 		CloseDb($conn);
-		echo "Hämtade rader: " . count($cursor); 
+		echo "Hämtade rader: " . $cursor->count(); 
 	}
 
 	public static function GetAllCitiesWhere() 
@@ -23,14 +22,13 @@ class Service {
 		$db = $dbInfo[0];
 		$conn = $dbInfo[1];
 		
-		$collection = $db->selectCollection('city');
+		$collection = $db->selectCollection('cities');
 
 		$query = array( "state" => "AL" );
-		$cities = array();
 		$cursor = $collection->find( $query );
 
 		CloseDb($conn);
-		echo "Hämtade rader: " . count($cursor); 
+		echo "Hämtade rader: " . $cursor->count(); 
 	}
 
 	public static function SaveToDb($postData)

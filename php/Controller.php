@@ -33,7 +33,7 @@ class Controller {
 			break;
 
 			default:
-				return null;
+				echo "FELAKTIG REQUEST";
 				break;
 
 		}	

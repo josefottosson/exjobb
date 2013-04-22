@@ -9,5 +9,4 @@ $Controller = new Controller();
 
 $Controller->doControll($method, $server);
 
-
 ?>
