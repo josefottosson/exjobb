@@ -18,6 +18,8 @@ var myApp = {
 		var totalTime = "";
 		var times = [];
 		var i = 0;
+		var highest = 0;
+		var lowest = 1000;
 
 		var urlToCall = "";
 
@@ -38,29 +40,42 @@ var myApp = {
 		function makeCall(urlToCall, method)
 		{
 			var params = "url=" + urlToCall + method;
-			console.log(params);
+			if(app === "PHP")
+			{
+				params += "&PHP=PHP";
+			}
+
 			$.ajax({
 			    type: "POST",
 			    url: "phpProxy.php",
 			    data: params,
 			    beforeSend: function()
 			    {
-			    	console.log(app + ' -- Starting round ' + (i+1));
+			    	document.write(app + ' -- Starting round ' + (i+1) + "<br />");
+			    	document.write('URL: ' + params + "<br />");
 			    	startTime = new Date().getTime();
 			    },
 			    success: function(data) {
 				    endTime = new Date().getTime();
 				    totalTime = endTime - startTime;
+				    if(totalTime > highest)
+				    {
+				    	highest = totalTime;
+				    }
+				    if(totalTime < lowest)
+				    {
+				    	lowest = totalTime;
+				    }
 				   	var row = {};
 					row.app = app;
 					row.operation = method;
 					row.totalTime = totalTime;
 					row.run = i+1;
 					row.date = new Date();
-				    console.log('\tTotal time: ' + totalTime + 'ms');
+				    document.write('\tTotal time: <strong>' + totalTime + 'ms</strong>' + "<br />");
 				    times.push(row);
-				    console.log(data);
-				    console.log('Round done\n');
+				    document.write(data + "<br />");
+				    document.write('Round done\n' + "<br />" + "<br />");
 			    },
 			    error: function(err) {
 			    	console.log('Error');
@@ -75,6 +90,16 @@ var myApp = {
 					}
 					else
 					{
+						var sum = 0;
+						for(var j = 0; j < times.length; j++)
+						{
+						    sum += parseInt(times[j].totalTime);
+						}
+						var avg = sum/times.length;
+						$('body').prepend('<h3>Slowest: ' + highest + 'ms</h3>');
+						$('body').prepend('<h3>Fastest: ' + lowest + 'ms</h3>');
+						$('body').prepend('<h3>Average: ' + avg + 'ms</h3>');
+
 						myApp.saveToDb(times);
 					}
 			    }
