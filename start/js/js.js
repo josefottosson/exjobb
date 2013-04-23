@@ -31,6 +31,13 @@ var myApp = {
 		case "RAILS":
 		  urlToCall = "http://localhost:3000/home/";
 		  break;
+		case "DJANGO":
+		  urlToCall = "http://127.0.0.1:8000/";
+		  method += "/";
+		  break;
+		case "NODE":
+		  urlToCall = "http://127.0.0.1:8888/";
+		  break;
 		default:
 			console.log('Felaktig request');
 			return;
@@ -39,20 +46,15 @@ var myApp = {
 			makeCall(urlToCall, method);
 		function makeCall(urlToCall, method)
 		{
-			var params = "url=" + urlToCall + method;
-			if(app === "PHP")
-			{
-				params += "&PHP=PHP";
-			}
 
 			$.ajax({
 			    type: "POST",
 			    url: "phpProxy.php",
-			    data: params,
+			    data: "url=" + urlToCall + method,
 			    beforeSend: function()
 			    {
 			    	document.write(app + ' -- Starting round ' + (i+1) + "<br />");
-			    	document.write('URL: ' + params + "<br />");
+			    	document.write("URL: " + urlToCall + method + "<br />");
 			    	startTime = new Date().getTime();
 			    },
 			    success: function(data) {
