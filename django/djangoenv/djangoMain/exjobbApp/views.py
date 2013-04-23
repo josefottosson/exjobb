@@ -9,11 +9,9 @@ from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseServer
 def GetAllCities(request):
   
   	cities = City.objects.all()
-  	return HttpResponse(len(cities))
-GetAllCities = csrf_exempt(GetAllCities)
+  	return HttpResponse(cities.count())
 
 def GetAllCitiesWhere(request):
   
   	cities = City.objects.all().filter(state = "AL")
   	return HttpResponse(len(cities))
-GetAllCitiesWhere = csrf_exempt(GetAllCitiesWhere)
