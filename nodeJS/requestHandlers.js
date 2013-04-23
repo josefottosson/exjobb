@@ -1,3 +1,5 @@
+var Db = require('mongodb').Db;
+var Server = require('mongodb').Server;
 var querystring = require("querystring");
 
 function start(response) {
@@ -9,11 +11,7 @@ function start(response) {
     'content="text/html; charset=UTF-8" />'+
     '</head>'+
     '<body>'+
-    '<form action="/upload" enctype="multipart/form-data" '+
-    'method="post">'+
-    '<input type="file" name="upload" multiple="multiple">'+
-    '<input type="submit" value="Upload file" />'+
-    '</form>'+
+    '<h1>Hello from NODEJS</h1>'+
     '</body>'+
     '</html>';
 
@@ -22,14 +20,24 @@ function start(response) {
     response.end();
 }
 
-function upload(response, request) {
-  console.log("Request handler 'upload' was called.");
-}
-
 function show(response) {
   
 }
 
+function GetAllCities(response)
+{
+var mongodb = require('mongodb');
+var server = new mongodb.Server("127.0.0.1", 27017, {});
+new mongodb.Db('exjobb', server, {}).open(function (error, client) {
+  if (error) throw error;
+  var collection = new mongodb.Collection(client, 'cities');
+  var test = collection.find();
+  console.log(test);
+  console.log('hej');
+
+});
+    
+}
+
 exports.start = start;
-exports.upload = upload;
-exports.show = show;
+exports.GetAllCities = GetAllCities;
