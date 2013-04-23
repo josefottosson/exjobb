@@ -26,18 +26,31 @@ function show(response) {
 
 function GetAllCities(response)
 {
-var mongodb = require('mongodb');
-var server = new mongodb.Server("127.0.0.1", 27017, {});
-new mongodb.Db('exjobb', server, {}).open(function (error, client) {
-  if (error) throw error;
-  var collection = new mongodb.Collection(client, 'cities');
-  var test = collection.find();
-  console.log(test);
-  console.log('hej');
+  console.log('Request recieved');
+  var databaseUrl = "exjobb";
+  var collections = ["cities"]
+  var db = require("mongojs").connect(databaseUrl, collections);
+  db.cities.find(function(err, cities) {
+    response.writeHead(200, {"Content-Type": "application/json"});
+    response.write(cities.length + " rows selected from the Database");
+    response.end();
+    db.close();
+  });
+}
 
-});
-    
+function GetAllCitiesWhere(response)
+{
+
+  var databaseUrl = "exjobb";
+  var collections = ["cities"]
+  var db = require("mongojs").connect(databaseUrl, collections);
+  db.cities.find({state: "AL"}, function(err, cities) {
+  response.writeHead(200, {"Content-Type": "application/json"});
+  response.write(cities.length + " rows selected from the Database");
+  response.end();
+  }); 
 }
 
 exports.start = start;
 exports.GetAllCities = GetAllCities;
+exports.GetAllCitiesWhere = GetAllCitiesWhere;
