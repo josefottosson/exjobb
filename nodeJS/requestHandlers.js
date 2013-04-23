@@ -32,22 +32,22 @@ function GetAllCities(response)
   var db = require("mongojs").connect(databaseUrl, collections);
   db.cities.find(function(err, cities) {
     response.writeHead(200, {"Content-Type": "application/json"});
-    response.write(cities.length + " rows selected from the Database");
-    response.end();
+    response.end(cities.length + " rows selected from the Database");
     db.close();
   });
 }
 
 function GetAllCitiesWhere(response)
 {
-
+  console.log('Request recieved');
   var databaseUrl = "exjobb";
   var collections = ["cities"]
   var db = require("mongojs").connect(databaseUrl, collections);
   db.cities.find({state: "AL"}, function(err, cities) {
-  response.writeHead(200, {"Content-Type": "application/json"});
-  response.write(cities.length + " rows selected from the Database");
-  response.end();
+    response.writeHead(200, {"Content-Type": "application/json"});
+    response.write(cities.length + " rows selected from the Database");
+    response.end();
+    db.close();
   }); 
 }
 
