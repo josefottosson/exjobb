@@ -23,6 +23,9 @@ http://localhost/start?php&GetAllCities
 
 För att testa Rails byter du bara ut php osv...
 
+Kontrollera i start/js/js.js, du kan behöva konfigurera om de urler som finns så att det pekar mot rätt serveraddress för dina lokala servrar.
+
+
 De olika metoder som finns att testa är:
 GetAllCities - Hämtar alla rader ifrån databasen
 GetAllCitiesWhere - Hämtar alla rader där state = AL, hårdkodad atm.
