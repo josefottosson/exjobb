@@ -5,8 +5,6 @@ from djangotoolbox.fields import ListField, EmbeddedModelField
 
 # Create your models here.
 class City(models.Model):
-	class Meta:
-        	verbose_name_plural = "cities"
 	city = models.TextField()
 	loc = models.TextField()
 	population = models.IntegerField()
