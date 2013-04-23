@@ -26,7 +26,7 @@ MongoDB-Engine (pip install https://github.com/django-nonrel/mongodb-engine/tarb
 <h4>PHP</h4>
 MAMP PRO 2.1.1 (PHP Version = 5.3.14)<br/>
 MongoDB Driver (https://github.com/mongodb/mongo-php-driver/downloads) <br />
-Placera mongo.so i /Applications/MAMP/bin/php/php5.3.14/lib/php/extensions/no-debug-non-zts-20090626/
+Placera <strong>mongo.so</strong> i <i>/Applications/MAMP/bin/php/php5.3.14/lib/php/extensions/no-debug-non-zts-20090626/</i> <br/>
 Öppna din Mamps php.ini fil, leta reda på ; Dynamic Extensions ; och lägg till följande längst ner extension=mongo.so
 Starta sedan om Mamp.
 <h4>NodeJS</h4>
