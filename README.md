@@ -5,9 +5,9 @@ Mitt exjobb våren 2013
 
 För att testa:
 
-Clona repon
-Installera MongoDB
-Starta terminalen i MongoDB-mappen i repon.
+Clona repon <br/>
+Installera MongoDB (brew install mongodb)<br/>
+Starta terminalen i MongoDB-mappen i repon. </br>
 Kör följande kommando <br/>
 <i>mongoimport --db exjobb --collection cities --file exjobb.json</i>
 
