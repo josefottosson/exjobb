@@ -27,9 +27,13 @@ function show(response) {
 function GetAllCities(response)
 {
   console.log('Request recieved');
+  //Choose DB
   var databaseUrl = "exjobb";
+  //Choose collection
   var collections = ["cities"]
+  //Connect to the db, require mongojs
   var db = require("mongojs").connect(databaseUrl, collections);
+  //Select all cities from the db, respond in the callback
   db.cities.find(function(err, cities) {
     response.writeHead(200, {"Content-Type": "application/json"});
     response.end(cities.length + " rows selected from the Database");
@@ -51,6 +55,7 @@ function GetAllCitiesWhere(response)
   }); 
 }
 
+//sets handlers to corresponding method
 exports.start = start;
 exports.GetAllCities = GetAllCities;
 exports.GetAllCitiesWhere = GetAllCitiesWhere;
