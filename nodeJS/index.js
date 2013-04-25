@@ -9,6 +9,7 @@ handle["/start"] = requestHandlers.start;
 handle["/GetAllCities"] = requestHandlers.GetAllCities;
 handle["/GetAllCitiesWhere"] = requestHandlers.GetAllCitiesWhere;
 handle["/CalculateModulus"] = requestHandlers.CalculateModulus;
-
+handle["/ReadFile"] = requestHandlers.ReadFile;
+handle["/ReadAndModify"] = requestHandlers.ReadAndModify;
 
 server.start(router.route, handle);

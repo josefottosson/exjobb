@@ -18,4 +18,6 @@ urlpatterns = patterns('',
     url(r'^GetAllCities/$', 'exjobbApp.views.GetAllCities', name="GetAllCities"),
     url(r'^GetAllCitiesWhere/$', 'exjobbApp.views.GetAllCitiesWhere', name="GetAllCitiesWhere"),
     url(r'^CalculateModulus/$', 'exjobbApp.views.CalculateModulus', name="CalculateModulus"),
+    url(r'^ReadFile/$', 'exjobbApp.views.ReadFile', name="ReadFile"),
+    url(r'^ReadAndSaveNew/$', 'exjobbApp.views.ReadAndSaveNew', name="ReadAndSaveNew"),
 )

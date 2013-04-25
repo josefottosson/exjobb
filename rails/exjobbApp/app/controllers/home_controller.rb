@@ -18,12 +18,31 @@ class HomeController < ApplicationController
     10000000.times do |index|
       
       if index % 3 == 0
-        @numbers.push index
+        @numbers << index
       end
 
     end
     render :text => "Modulus klar<br/>" + @numbers.length.to_s
   end
 
+  def ReadFile
+    @file = File.read('exjobb.json')
+    render :text => "Läst klart<br/>" + @file.length.to_s
+  end
+
+  def ReadAndSaveNew
+    
+    @buf = ""
+    File.open('exjobb.json') do |file|
+      file.readlines.each do |line|
+          @buf << line.gsub('_id', "id")
+      end
+    end
+    File.open('exjobb2.json', 'w') do |file|
+      file << @buf
+    end
+
+    render :text => "Läst och Modifierat<br/>"
+  end
 end
   

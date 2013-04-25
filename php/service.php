@@ -39,7 +39,7 @@ class Service {
 		{
 			if($i % 3 == 0)
 			{
-				array_push($numbers, $i);
+				$numbers[] = $i;
 			}
 		}
 		echo "Modulus klar: " + count($numbers);

@@ -70,8 +70,28 @@ function CalculateModulus(response)
   response.end();
 }
 
+function ReadFile(response)
+{
+  fs = require('fs')
+  fs.readFile('exjobb.json', 'utf8', function (err,data) {
+  if (err) {
+    return console.log(err);
+  }
+    response.writeHead(200, {"Content-Type": "application/json"});
+    response.write("Fil läst: <br/>");
+    response.end();
+  });
+}
+
+function ReadAndModify(response)
+{
+
+}
+
 //sets handlers to corresponding method
 exports.start = start;
 exports.GetAllCities = GetAllCities;
 exports.GetAllCitiesWhere = GetAllCitiesWhere;
 exports.CalculateModulus = CalculateModulus;
+exports.ReadFile = ReadFile;
+exports.ReadAndModify = ReadAndModify;
