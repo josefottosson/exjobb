@@ -55,7 +55,23 @@ function GetAllCitiesWhere(response)
   }); 
 }
 
+function CalculateModulus(response)
+{
+  var numbers = [];
+  for(i = 0; i < 10000000; i++)
+  {
+    if(i % 3 === 0)
+    {
+      numbers.push(i);
+    }
+  }
+  response.writeHead(200, {"Content-Type": "application/json"});
+  response.write("Modulus Done: <br/>" + numbers.length);
+  response.end();
+}
+
 //sets handlers to corresponding method
 exports.start = start;
 exports.GetAllCities = GetAllCities;
 exports.GetAllCitiesWhere = GetAllCitiesWhere;
+exports.CalculateModulus = CalculateModulus;

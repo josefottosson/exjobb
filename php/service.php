@@ -31,6 +31,20 @@ class Service {
 		echo "Hämtade rader: " . $cursor->count(); 
 	}
 
+	public static function CalculateModulus()
+	{
+		$numbers = array();
+
+		for ($i=0; $i < 10000000; $i++) 
+		{
+			if($i % 3 == 0)
+			{
+				array_push($numbers, $i);
+			}
+		}
+		echo "Modulus klar: " + count($numbers);
+	}
+
 	public static function SaveToDb($postData)
 	{
 		$dbInfo = ConnectToDb();

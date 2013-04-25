@@ -102,7 +102,7 @@ var myApp = {
 						$('body').prepend('<h3>Fastest: ' + lowest + 'ms</h3>');
 						$('body').prepend('<h3>Average: ' + avg + 'ms</h3>');
 
-						myApp.saveToDb(times);
+						//myApp.saveToDb(times);
 					}
 			    }
 			});

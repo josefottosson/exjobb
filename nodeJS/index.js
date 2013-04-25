@@ -8,6 +8,7 @@ handle["/"] = requestHandlers.start;
 handle["/start"] = requestHandlers.start;
 handle["/GetAllCities"] = requestHandlers.GetAllCities;
 handle["/GetAllCitiesWhere"] = requestHandlers.GetAllCitiesWhere;
+handle["/CalculateModulus"] = requestHandlers.CalculateModulus;
 
 
 server.start(router.route, handle);

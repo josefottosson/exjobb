@@ -14,4 +14,15 @@ def GetAllCities(request):
 def GetAllCitiesWhere(request):
   
   	cities = City.objects.all().filter(state = "AL")
-  	return HttpResponse(len(cities))
+  	return HttpResponse(cities.count())
+
+def CalculateModulus(request):
+	
+	numbers = []
+	i = 0
+	for i in range(10000000):
+		if i % 3 == 0:
+			numbers.append(i)
+
+
+	return HttpResponse(len(numbers))

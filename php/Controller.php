@@ -28,6 +28,10 @@ class Controller {
 			Service::GetAllCitiesWhere();
 			break;
 
+			case "CalculateModulus":
+			Service::CalculateModulus();
+			break;
+
 			case "insert":
 			Service::SaveToDb($_POST["times"]);
 			break;

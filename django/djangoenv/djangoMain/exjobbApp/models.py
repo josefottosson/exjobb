@@ -10,5 +10,8 @@ class City(models.Model):
 	population = models.IntegerField()
 	state = models.TextField()
 
+	class MongoMeta:
+		db_table = "cities"
+
 	def __unicode__(self):
         	return self.city
