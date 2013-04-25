@@ -32,16 +32,13 @@ class HomeController < ApplicationController
 
   def ReadAndSaveNew
     
-    @buf = ""
-    File.open('exjobb.json') do |file|
-      file.readlines.each do |line|
-          @buf << line.gsub('_id', "id")
-      end
-    end
-    File.open('exjobb2.json', 'w') do |file|
-      file << @buf
-    end
+    text = File.read('exjobb.json')
+    @newText = text.gsub('_id', 'id')
 
+    File.open('exjobb2.json', 'w') do |file|
+      file << @newText
+    end
+    
     render :text => "Läst och Modifierat<br/>"
   end
 end
