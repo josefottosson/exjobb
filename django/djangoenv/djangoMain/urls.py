@@ -20,4 +20,5 @@ urlpatterns = patterns('',
     url(r'^CalculateModulus/$', 'exjobbApp.views.CalculateModulus', name="CalculateModulus"),
     url(r'^ReadFile/$', 'exjobbApp.views.ReadFile', name="ReadFile"),
     url(r'^ReadAndSaveNew/$', 'exjobbApp.views.ReadAndSaveNew', name="ReadAndSaveNew"),
+    url(r'^SelectAndUpdate/$', 'exjobbApp.views.SelectAndUpdate', name="SelectAndUpdate"),
 )

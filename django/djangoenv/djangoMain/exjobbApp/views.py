@@ -10,12 +10,12 @@ from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseServer
 def GetAllCities(request):
   
   	cities = City.objects.all()
-  	return HttpResponse(cities.count())
+  	return HttpResponse('Select of ' +str(cities.count()) + ' rows done')
 
 def GetAllCitiesWhere(request):
   
   	cities = City.objects.all().filter(state = "AL")
-  	return HttpResponse(cities.count())
+  	return HttpResponse('Select of ' + str(cities.count()) + ' rows done')
 
 def CalculateModulus(request):
 	
@@ -30,7 +30,7 @@ def CalculateModulus(request):
 def ReadFile(request):
 	fileHandle = open('exjobb.json', 'r+')
 	text = fileHandle.read()
-	return HttpResponse("Fil read")
+	return HttpResponse("File read done")
 
 def ReadAndSaveNew(request):
 	fileHandle = open('exjobb.json', 'r+')
@@ -40,3 +40,14 @@ def ReadAndSaveNew(request):
 	newFile.write(text)
 	newFile.close()
 	return HttpResponse('Read and Save done')
+
+def SelectAndUpdate(request):
+	cities = City.objects.all().filter(population__lte=10000)
+	for city in cities:
+		if city.city == city.city.upper():
+			city.city = city.city.lower()
+			city.save(city)
+		else:
+			city.city = city.city.upper()
+			city.save(city)
+	return HttpResponse('Select and update of ' + str(cities.count()) + ' rows done')

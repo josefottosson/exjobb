@@ -83,8 +83,48 @@ function ReadFile(response)
   });
 }
 
-function ReadAndModify(response)
+function ReadAndSaveNew(response)
 {
+  fs = require('fs')
+  fs.readFile('exjobb.json', 'utf8', function (err,data) {
+  if (err) {
+    return console.log(err);
+  }
+    var newText = data.replace(/_id/g, 'id');
+    fs.writeFile("exjobb2.json", newText, function(){
+      response.writeHead(200, {"Content-Type": "application/json"});
+      response.write("Fil läst och sparad: <br/>");
+      response.end();
+    })
+  });
+}
+
+function SelectAndUpdate(response)
+{
+  var databaseUrl = "exjobb";
+  var collections = ["cities"];
+  var db = require("mongojs").connect(databaseUrl, collections);
+  //Select all cities with a population less than 10 000
+  db.cities.find({population: {$lt: 10000}}, function(err, cities){
+
+    for(var i = 0; i < cities.length; i++)
+    {
+      //Check if city name is upperCase, if so, change to lowercase
+      if(cities[i].city === cities[i].city.toUpperCase())
+      {
+        cities[i].city = cities[i].city.toLowerCase();
+      }
+      else
+      {
+        cities[i].city = cities[i].city.toUpperCase();
+      }
+      db.cities.save(cities[i]);
+    }
+    response.writeHead(200, {"Content-Type": "application/json"});
+    response.write(cities.length + " rows selected and updated");
+    response.end();
+    db.close();
+  });
 
 }
 
@@ -94,4 +134,5 @@ exports.GetAllCities = GetAllCities;
 exports.GetAllCitiesWhere = GetAllCitiesWhere;
 exports.CalculateModulus = CalculateModulus;
 exports.ReadFile = ReadFile;
-exports.ReadAndModify = ReadAndModify;
+exports.ReadAndSaveNew = ReadAndSaveNew
+exports.SelectAndUpdate = SelectAndUpdate;
