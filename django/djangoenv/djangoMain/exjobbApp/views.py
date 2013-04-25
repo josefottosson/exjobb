@@ -9,13 +9,13 @@ from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseServer
 
 def GetAllCities(request):
   
-  	cities = City.objects.all()
-  	return HttpResponse('Select of ' +str(cities.count()) + ' rows done')
+  	cities = list(City.objects.all())
+  	return HttpResponse('Select of '+ str(len(cities))+' rows done')
 
 def GetAllCitiesWhere(request):
   
-  	cities = City.objects.all().filter(state = "AL")
-  	return HttpResponse('Select of ' + str(cities.count()) + ' rows done')
+  	cities = list(City.objects.all().filter(state = "AL"))
+  	return HttpResponse('Select of ' + str(len(cities)) + ' rows done')
 
 def CalculateModulus(request):
 	
