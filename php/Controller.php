@@ -32,10 +32,21 @@ class Controller {
 			Service::CalculateModulus();
 			break;
 
+			case "ReadFile":
+			Service::ReadFile();
+			break;
+
+			case "ReadAndSaveNew":
+			Service::ReadAndSaveNew();
+			break;
+
 			case "insert":
 			Service::SaveToDb($_POST["times"]);
 			break;
 
+			case "SelectAndUpdate":
+			Service::SelectAndUpdate();
+			break;
 			default:
 				echo "FELAKTIG REQUEST";
 				break;

@@ -11,7 +11,9 @@ class Service {
 		$conn = $dbInfo[1];
 		$collection = $db->selectCollection('cities');
 		$cursor = $collection->find();
-
+		$cursor->limit( 50000 );
+		$cities = iterator_to_array($cursor);
+		$cities = json_encode($cities);
 		CloseDb($conn);
 		echo "Hämtade rader: " . $cursor->count(); 
 	}
@@ -26,7 +28,9 @@ class Service {
 
 		$query = array( "state" => "AL" );
 		$cursor = $collection->find( $query );
-
+		$cursor->limit( 50000 );
+		$cities = iterator_to_array($cursor);
+		$cities = json_encode($cities);
 		CloseDb($conn);
 		echo "Hämtade rader: " . $cursor->count(); 
 	}
@@ -43,6 +47,39 @@ class Service {
 			}
 		}
 		echo "Modulus klar: " + count($numbers);
+	}
+
+	public static function ReadFile()
+	{
+		$file = file_get_contents("exjobb.json");
+		echo "Fil läst";
+	}
+
+	public static function ReadAndSaveNew()
+	{
+		$file = 'exjobb.json';
+		$file_contents = file_get_contents($file);
+		$file_contents = preg_replace('/,\s"_id"\:\s"\d*"/',"", $file_contents);
+		file_put_contents('exjobb2.json',$file_contents);
+	}
+
+	public static function SelectAndUpdate()
+	{
+		$dbInfo = ConnectToDb();
+		$db = $dbInfo[0];
+		$conn = $dbInfo[1];
+		$collection = $db->selectCollection('cities');
+		$query = array( 'population' => array( '$lt' => 10000 ) );
+		$cursor = $collection->find($query);
+		$citiesArray = iterator_to_array($cursor);
+		$citiesObj = array();
+		CloseDb($conn);
+		foreach ($citiesArray as $city) 
+		{
+			$cityObj = new City($city["city"],$city["loc"], $city["population"], $city["state"], $city["_id"]);
+			$citiesObj[] = $cityObj;
+		}
+		echo $cursor->count() . " rows Selected and Updated";
 	}
 
 	public static function SaveToDb($postData)
@@ -62,6 +99,8 @@ class Service {
 		CloseDb($conn);
 		echo count($data) . " rader sparades i databasen";
 	}
+
+
 }
 
 ?>
