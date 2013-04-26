@@ -9,7 +9,16 @@ class City(models.Model):
 	loc = models.CharField()
 	population = models.IntegerField()
 	state = models.CharField()
-	id = models.IntegerField()
+	_id = models.CharField()
+	def as_dict(self):
+        	return {
+            	"id": self.id,
+            	"city": self.city,
+            	"loc": self.loc,
+            	"population": self.population,
+            	"state": self.state
+            	# other stuff
+        	}
 
 	class MongoMeta:
 		db_table = "cities"

@@ -11,14 +11,14 @@ from django.core import serializers
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseServerError, HttpResponseRedirect
 
 def GetAllCities(request):
-  
-  	cities = serializers.serialize("json", City.objects.all())
-  	return HttpResponse(cities)
+  	#This is way faster than doing serialization, 2 times faster!!
+  	dictionaries = [ obj.as_dict() for obj in City.objects.all() ]
+	return HttpResponse(json.dumps({"Cities": dictionaries}), content_type='application/json')
 
 def GetAllCitiesWhere(request):
   
-  	cities = list(City.objects.all().filter(state = "AL"))
-  	return HttpResponse('Select of ' + str(len(cities)) + ' rows done')
+  	dictionaries = [ obj.as_dict() for obj in City.objects.all().filter(state = "AL") ]
+	return HttpResponse(json.dumps({"Cities": dictionaries}), content_type='application/json')
 
 def CalculateModulus(request):
 	

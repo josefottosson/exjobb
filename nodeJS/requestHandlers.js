@@ -35,8 +35,9 @@ function GetAllCities(response)
   var db = require("mongojs").connect(databaseUrl, collections);
   //Select all cities from the db, respond in the callback
   db.cities.find(function(err, cities) {
+    cities = JSON.stringify(cities);
     response.writeHead(200, {"Content-Type": "application/json"});
-    response.end(cities.length + " rows selected from the Database");
+    response.end(cities);
     db.close();
   });
 }
@@ -48,8 +49,9 @@ function GetAllCitiesWhere(response)
   var collections = ["cities"]
   var db = require("mongojs").connect(databaseUrl, collections);
   db.cities.find({state: "AL"}, function(err, cities) {
+    cities = JSON.strinfify(cities)
     response.writeHead(200, {"Content-Type": "application/json"});
-    response.write(cities.length + " rows selected from the Database");
+    response.write(cities);
     response.end();
     db.close();
   }); 
