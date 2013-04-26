@@ -5,10 +5,11 @@ from djangotoolbox.fields import ListField, EmbeddedModelField
 
 # Create your models here.
 class City(models.Model):
-	city = models.TextField()
-	loc = models.TextField()
+	city = models.CharField()
+	loc = models.CharField()
 	population = models.IntegerField()
-	state = models.TextField()
+	state = models.CharField()
+	id = models.IntegerField()
 
 	class MongoMeta:
 		db_table = "cities"

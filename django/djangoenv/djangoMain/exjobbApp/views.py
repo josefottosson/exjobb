@@ -3,14 +3,17 @@ from exjobbApp.models import City
 from django.utils import simplejson
 from django.contrib.csrf.middleware import csrf_exempt
 from django.core.files.base import ContentFile
+from django.utils import simplejson
 import sys
+import json
+from django.core import serializers
 
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseServerError, HttpResponseRedirect
 
 def GetAllCities(request):
   
-  	cities = list(City.objects.all())
-  	return HttpResponse('Select of '+ str(len(cities))+' rows done')
+  	cities = serializers.serialize("json", City.objects.all())
+  	return HttpResponse(cities)
 
 def GetAllCitiesWhere(request):
   

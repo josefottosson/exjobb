@@ -4,12 +4,16 @@ class HomeController < ApplicationController
 
   def GetAllCities
   	cities = City.all.to_a
-    render :text => cities.length.to_s + " rader hämtades ifrån Databasen"
+    respond_to do|format|
+      format.json {render :json => cities}
+    end
   end
 
   def GetAllCitiesWhere
   	cities = City.where(:state => 'AL').to_a
-  	render :text => cities.length.to_s + " rader hämtades ifrån Databasen"
+  	respond_to do |format|
+      format.json {render :json => cities}
+    end
   end
 
   def CalculateModulus
