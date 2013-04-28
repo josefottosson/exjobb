@@ -15,7 +15,7 @@ class Service {
 		$cities = iterator_to_array($cursor);
 		$cities = json_encode($cities);
 		CloseDb($conn);
-		echo "Hämtade rader: " . $cursor->count(); 
+		echo $cities; 
 	}
 
 	public static function GetAllCitiesWhere() 
@@ -32,7 +32,7 @@ class Service {
 		$cities = iterator_to_array($cursor);
 		$cities = json_encode($cities);
 		CloseDb($conn);
-		echo "Hämtade rader: " . $cursor->count(); 
+		echo $cities; 
 	}
 
 	public static function CalculateModulus()
@@ -72,14 +72,25 @@ class Service {
 		$query = array( 'population' => array( '$lt' => 10000 ) );
 		$cursor = $collection->find($query);
 		$citiesArray = iterator_to_array($cursor);
-		$citiesObj = array();
-		CloseDb($conn);
+
 		foreach ($citiesArray as $city) 
 		{
 			$cityObj = new City($city["city"],$city["loc"], $city["population"], $city["state"], $city["_id"]);
-			$citiesObj[] = $cityObj;
+
+			if($cityObj->city === strtoupper($cityObj->city))
+			{
+				$cityObj->city = strtolower($cityObj->city);
+			}
+			else
+			{
+				$cityObj->city = strtoupper($cityObj->city);
+			}
+			
+			$collection->save($cityObj);
 		}
-		echo $cursor->count() . " rows Selected and Updated";
+
+		CloseDb($conn);
+		echo "Select And Update Done";
 	}
 
 	public static function SaveToDb($postData)
