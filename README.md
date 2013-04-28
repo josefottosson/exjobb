@@ -51,5 +51,9 @@ NodeJS = <i>http://localhost/start?node&GetAllCities</i> <br/>
 Kontrollera i start/js/js.js, du kan behöva konfigurera om de urler(portnummer) som finns så att det pekar mot rätt serveraddress för dina lokala servrar.
 <h4>Metoder</h4>
 De olika metoder som finns att testa är: <br/>
-<strong>GetAllCities</strong> - Hämtar alla rader ifrån databasen <br/>
-<strong>GetAllCitiesWhere</strong> - Hämtar alla rader där state = AL, hårdkodad atm. <br/>
+<strong>GetAllCities</strong> - Hämtar alla rader ifrån databasen och returnerar dem som JSON<br/>
+<strong>GetAllCitiesWhere</strong> - Hämtar alla rader där state = AL, och returnerar dem som JSON <br/>
+<strong>CalculateModulus</strong> - Loopar ifrån 1 - 10000000 och kollar om i%3 === 0, lägger isf till talet i en array och returnerar den<br/>
+<strong>ReadFile</strong> - Läser in en fil<br/>
+<strong>ReadFileAndSaveNew</strong> - Läser in en fil och ersätter alla "_id" till "id" och sparar som en ny fil<br/>
+<strong>SelectAndUpdate</strong> - Läser in alla städer där population < 10000, kollar om namnet på staden är i uppercase, isf görs det om vill lowercase och viceversa. Sparar sedan till databasen<br/>
