@@ -2,24 +2,32 @@ var myApp = {
 
 	init: function()
 	{
-		myApp.makeAjaxCall();
+		var methodDropdown = $('#methodDropdown').hide();
+		var startTest = $('#startTest').hide();
+		var app = "";
+		var method = "";
+		$('#appDropdown').change(function(){
+			app = $('#appDropdown').find(":selected").text();
+			methodDropdown.show();
+		});
+		$(methodDropdown).change(function(){
+			method = $(methodDropdown).find(":selected").text();
+			startTest.show();
+		});
+		$(startTest).click(function(){
+			myApp.makeAjaxCall(app, method);
+		})
 	},
 
-	makeAjaxCall: function()
+	makeAjaxCall: function(app, method)
 	{
-		var urlRequest = window.location.search;
-		var splitted = urlRequest.split('&');
-		var app = splitted[0].toUpperCase();
-			app = app.substring(1);
-		var method = splitted[1];
-
 		var startTime = "";
 		var endTime = "";
 		var totalTime = "";
 		var times = [];
 		var i = 0;
 		var highest = 0;
-		var lowest = 1000;
+		var lowest = 100000;
 
 		var urlToCall = "";
 
@@ -46,7 +54,7 @@ var myApp = {
 			makeCall(urlToCall, method);
 		function makeCall(urlToCall, method)
 		{
-
+			var testOutput = $('#testOutput');
 			$.ajax({
 			    type: "POST",
 			    url: "phpProxy.php",
@@ -76,7 +84,7 @@ var myApp = {
 					row.date = new Date();
 				    document.write('\tTotal time: <strong>' + totalTime + 'ms</strong>' + "<br />");
 				    times.push(row);
-				    document.write(data + "<br />");
+				    //document.write(data + "<br />");
 				    document.write('Round done\n' + "<br />" + "<br />");
 			    },
 			    error: function(err) {
