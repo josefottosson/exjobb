@@ -15,8 +15,10 @@ var myApp = {
 			startTest.show();
 		});
 		$(startTest).click(function(){
+			$('#testOutput').empty();
+			$('#chartDiv').empty();
 			myApp.makeAjaxCall(app, method);
-		})
+		});
 	},
 
 	makeAjaxCall: function(app, method)
@@ -51,18 +53,19 @@ var myApp = {
 			return;
 		}
 
-			makeCall(urlToCall, method);
+		var testOutput = $('#testOutput');
+		$('#testOutput').append("<h2>APP: "+app+ "</h2>");
+		$('#testOutput').append("<p>URL: "+urlToCall+method +"</p><hr/>");
+		makeCall(urlToCall, method);
+		
 		function makeCall(urlToCall, method)
 		{
-			var testOutput = $('#testOutput');
 			$.ajax({
 			    type: "POST",
 			    url: "phpProxy.php",
 			    data: "url=" + urlToCall + method,
 			    beforeSend: function()
 			    {
-			    	document.write(app + ' -- Starting round ' + (i+1) + "<br />");
-			    	document.write("URL: " + urlToCall + method + "<br />");
 			    	startTime = new Date().getTime();
 			    },
 			    success: function(data) {
@@ -82,10 +85,9 @@ var myApp = {
 					row.totalTime = totalTime;
 					row.run = i+1;
 					row.date = new Date();
-				    document.write('\tTotal time: <strong>' + totalTime + 'ms</strong>' + "<br />");
+					testOutput.append('<p>Round '+(i+1)+' done</p>');
+				    testOutput.append('<p>Total time: <strong>' + totalTime + 'ms</strong>' + "</p>");
 				    times.push(row);
-				    //document.write(data + "<br />");
-				    document.write('Round done\n' + "<br />" + "<br />");
 			    },
 			    error: function(err) {
 			    	console.log('Error');
@@ -106,11 +108,14 @@ var myApp = {
 						    sum += parseInt(times[j].totalTime);
 						}
 						var avg = sum/times.length;
-						$('body').prepend('<h3>Slowest: ' + highest + 'ms</h3>');
-						$('body').prepend('<h3>Fastest: ' + lowest + 'ms</h3>');
-						$('body').prepend('<h3>Average: ' + avg + 'ms</h3>');
+						$('#testOutput').prepend('<h3>Slowest: ' + highest + 'ms</h3>');
+						$('#testOutput').prepend('<h3>Fastest: ' + lowest + 'ms</h3>');
+						$('#testOutput').prepend('<h3>Average: ' + avg + 'ms</h3>');
 
+						//SAVE TO DB
 						//myApp.saveToDb(times);
+						//GENERATE CHART
+						myApp.createChart(times, highest, lowest);
 					}
 			    }
 			});
@@ -139,6 +144,69 @@ var myApp = {
 
     	});
 
+	},
+
+	createChart: function(series, highest, lowest)
+	{
+		$('#chartDiv').highcharts({
+            chart: {
+                type: 'scatter',
+                marginRight: 130,
+                marginBottom: 25
+            },
+            title: {
+                text: 'Benchmark for ' + series[0].app,
+                x: -20 //center
+            },
+            subtitle: {
+                text: 'Method: ' + series[0].operation,
+                x: -20
+            },
+            xAxis: {
+                title: {
+                    text: 'Round'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            yAxis: {
+            	min: 0,
+            	max: highest + 100,
+                title: {
+                    text: 'Time (ms)'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: 'ms'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -10,
+                y: 100,
+                borderWidth: 0
+            },
+            series : [{
+    			name : series[0].app,
+			    data : (function() {
+			        var data = [];
+			        for(var j = 0; j < series.length; j++)
+			        {
+			        	data.push([series[j].run, series[j].totalTime]);
+			        }                
+			        return data;
+			    })()
+			}]
+        });
 	}
 };
 
