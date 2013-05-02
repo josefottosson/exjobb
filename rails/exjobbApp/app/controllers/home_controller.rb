@@ -4,16 +4,12 @@ class HomeController < ApplicationController
 
   def GetAllCities
   	cities = City.all.to_a
-    respond_to do|format|
-      format.json {render :json => cities}
-    end
+    render :json => Oj.dump(cities, mode: :compat)
   end
 
   def GetAllCitiesWhere
   	cities = City.where(:state => 'AL').to_a
-  	respond_to do |format|
-      format.json {render :json => cities}
-    end
+  	render :json => Oj.dump(cities, mode: :compat)
   end
 
   def CalculateModulus
@@ -59,7 +55,7 @@ class HomeController < ApplicationController
       end
 
     end
-    render :text => cities.length.to_s + "rows Selected and updated"
+    render :text => "Selected and updated done"
   end
 end
   

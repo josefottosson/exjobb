@@ -53,4 +53,4 @@ def SelectAndUpdate(request):
 		else:
 			city.city = city.city.upper()
 			city.save(city)
-	return HttpResponse('Select and update of ' + str(cities.count()) + ' rows done')
+	return HttpResponse('Select and update done')

@@ -80,10 +80,12 @@ class Service {
 			if($cityObj->city === strtoupper($cityObj->city))
 			{
 				$cityObj->city = strtolower($cityObj->city);
+				echo "Lower";
 			}
 			else
 			{
 				$cityObj->city = strtoupper($cityObj->city);
+				echo "Upper";
 			}
 			
 			$collection->save($cityObj);
