@@ -80,12 +80,10 @@ class Service {
 			if($cityObj->city === strtoupper($cityObj->city))
 			{
 				$cityObj->city = strtolower($cityObj->city);
-				echo "Lower";
 			}
 			else
 			{
 				$cityObj->city = strtoupper($cityObj->city);
-				echo "Upper";
 			}
 			
 			$collection->save($cityObj);
@@ -93,6 +91,7 @@ class Service {
 
 		CloseDb($conn);
 		echo "Select And Update Done";
+		echo $cursor->count();
 	}
 
 	public static function SaveToDb($postData)
@@ -103,14 +102,13 @@ class Service {
 		$collection = $db->selectCollection('testData');
 
 		$data = json_decode(json_encode($postData));
-
 		foreach ($data as $id => $item) 
 		{
    			$collection->insert($item);
 		}
 
 		CloseDb($conn);
-		echo count($data) . " rader sparades i databasen";
+		echo "Sparade i databasen";
 	}
 
 

@@ -18,11 +18,11 @@ class HomeController < ApplicationController
     10000000.times do |index|
       
       if index % 3 == 0
-        @numbers << index
+        numbers << index
       end
 
     end
-    render :text => "Modulus klar<br/>" + numbers.length.to_s
+    render :text => "Modulus klar<br/>"
   end
 
   def ReadFile

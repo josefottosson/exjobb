@@ -49,7 +49,7 @@ function GetAllCitiesWhere(response)
   var collections = ["cities"]
   var db = require("mongojs").connect(databaseUrl, collections);
   db.cities.find({state: "AL"}, function(err, cities) {
-    cities = JSON.strinfify(cities)
+    cities = JSON.stringify(cities)
     response.writeHead(200, {"Content-Type": "application/json"});
     response.write(cities);
     response.end();

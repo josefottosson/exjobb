@@ -27,6 +27,7 @@ var myApp = {
 		var endTime = "";
 		var totalTime = "";
 		var times = [];
+		var objectArray = [];
 		var i = 0;
 		var highest = 0;
 		var lowest = 100000;
@@ -43,6 +44,7 @@ var myApp = {
 		  break;
 		case "DJANGO":
 		  urlToCall = "http://127.0.0.1:8000/";
+		  //Lägger till ett slash på slutet eftersom Django kräver det för liknande requests
 		  method += "/";
 		  break;
 		case "NODE":
@@ -85,9 +87,11 @@ var myApp = {
 					row.totalTime = totalTime;
 					row.run = i+1;
 					row.date = new Date();
-					testOutput.append('<p>Round '+(i+1)+' done</p>');
-				    testOutput.append('<p>Total time: <strong>' + totalTime + 'ms</strong>' + "</p>");
+				    testOutput.prepend('<p>Round '+(i+1)+' done</p>' + '<p>Total time: <strong>' + totalTime + 'ms</strong>' + "</p>");
+				    objectArray.push(row);
 				    times.push(row);
+				    myApp.saveToDb(objectArray);
+				    objectArray = [];
 			    },
 			    error: function(err) {
 			    	console.log('Error');
@@ -96,7 +100,7 @@ var myApp = {
 			    complete: function()
 			    {
 			    	i++;
-			    	if(i < 50)
+			    	if(i < 1000)
 			    	{
 			    		makeCall(urlToCall, method);
 					}
@@ -113,7 +117,6 @@ var myApp = {
 						$('#testOutput').prepend('<h3>Average: ' + avg + 'ms</h3>');
 
 						//SAVE TO DB
-						//myApp.saveToDb(times);
 						//GENERATE CHART
 						myApp.createChart(times, highest, lowest);
 					}
@@ -128,6 +131,7 @@ var myApp = {
 		$.ajax({
         url: "../../exjobb/insert",
         type: "POST",
+        async: false,
         data: { times: times },
         beforeSend: function()
         {
