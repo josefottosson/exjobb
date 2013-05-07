@@ -15,7 +15,7 @@
     		$this->loc = (array) $loc;
     		$this->population = (int) $population;
     		$this->state = (string) $state;
-    		$this->_id = (string) $_id;   
+    		$this->_id = $_id;   
     	}
 	}
 

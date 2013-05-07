@@ -45,12 +45,12 @@ def ReadAndSaveNew(request):
 	return HttpResponse('Read and Save done')
 
 def SelectAndUpdate(request):
-	cities = City.objects.all().filter(population__lte=10000)
-	for city in cities:
+
+	for city in City.objects.all().filter(population__lt=10000):
 		if city.city == city.city.upper():
 			city.city = city.city.lower()
-			city.save(city)
 		else:
 			city.city = city.city.upper()
-			city.save(city)
+
+		city.save(city)
 	return HttpResponse('Select and update done')

@@ -76,9 +76,8 @@ class Service {
 		foreach ($citiesArray as $city) 
 		{
 			$cityObj = new City($city["city"],$city["loc"], $city["population"], $city["state"], $city["_id"]);
-
-			if($cityObj->city === strtoupper($cityObj->city))
-			{
+			if($cityObj->city == strtoupper($cityObj->city))
+			{	
 				$cityObj->city = strtolower($cityObj->city);
 			}
 			else
@@ -91,7 +90,6 @@ class Service {
 
 		CloseDb($conn);
 		echo "Select And Update Done";
-		echo $cursor->count();
 	}
 
 	public static function SaveToDb($postData)

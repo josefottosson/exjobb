@@ -116,7 +116,6 @@ var myApp = {
 						$('#testOutput').prepend('<h3>Fastest: ' + lowest + 'ms</h3>');
 						$('#testOutput').prepend('<h3>Average: ' + avg + 'ms</h3>');
 
-						//SAVE TO DB
 						//GENERATE CHART
 						myApp.createChart(times, highest, lowest);
 					}

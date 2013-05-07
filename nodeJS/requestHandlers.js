@@ -26,7 +26,6 @@ function show(response) {
 
 function GetAllCities(response)
 {
-  console.log('Request recieved');
   //Choose DB
   var databaseUrl = "exjobb";
   //Choose collection
@@ -44,7 +43,6 @@ function GetAllCities(response)
 
 function GetAllCitiesWhere(response)
 {
-  console.log('Request recieved');
   var databaseUrl = "exjobb";
   var collections = ["cities"]
   var db = require("mongojs").connect(databaseUrl, collections);
@@ -108,7 +106,7 @@ function SelectAndUpdate(response)
   var db = require("mongojs").connect(databaseUrl, collections);
   //Select all cities with a population less than 10 000
   db.cities.find({population: {$lt: 10000}}, function(err, cities){
-
+    console.log(cities[0].city);
     for(var i = 0; i < cities.length; i++)
     {
       //Check if city name is upperCase, if so, change to lowercase
