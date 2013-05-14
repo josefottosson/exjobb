@@ -47,6 +47,13 @@ class Controller {
 			case "SelectAndUpdate":
 			Service::SelectAndUpdate();
 			break;
+
+			case "GetData":
+			$method = explode("?", $fields);
+			$method = $method[1];
+			Service::GetData($method);
+			break;
+
 			default:
 				echo "FELAKTIG REQUEST";
 				break;

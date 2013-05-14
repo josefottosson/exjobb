@@ -19,6 +19,11 @@ var myApp = {
 			$('#chartDiv').empty();
 			myApp.makeAjaxCall(app, method);
 		});
+
+		$('#showDataLink').click(function(){
+			$('#appDropdown').hide();
+			myApp.displayTestData();
+		});
 	},
 
 	makeAjaxCall: function(app, method)
@@ -117,7 +122,7 @@ var myApp = {
 						$('#testOutput').prepend('<h3>Average: ' + avg + 'ms</h3>');
 
 						//GENERATE CHART
-						myApp.createChart(times, highest, lowest);
+						myApp.createSingleChart(times, highest, lowest);
 					}
 			    }
 			});
@@ -128,28 +133,27 @@ var myApp = {
 	{
 
 		$.ajax({
-        url: "../../exjobb/insert",
-        type: "POST",
-        async: false,
-        data: { times: times },
-        beforeSend: function()
-        {
-        	console.log('Skickar data till DB');
-        },
-        success: function(data)
-        {
-        	console.log(data);
-        },
-        error: function(err)
-        {
-        	console.log(err);
-        }
-
+	        url: "../../exjobb/insert",
+	        type: "POST",
+	        async: false,
+	        data: { times: times },
+	        beforeSend: function()
+	        {
+	        	console.log('Skickar data till DB');
+	        },
+	        success: function(data)
+	        {
+	        	console.log(data);
+	        },
+	        error: function(err)
+	        {
+	        	console.log(err);
+	        }
     	});
 
 	},
 
-	createChart: function(series, highest, lowest)
+	createSingleChart: function(series, highest, lowest)
 	{
 		$('#chartDiv').highcharts({
             chart: {
@@ -210,6 +214,42 @@ var myApp = {
 			    })()
 			}]
         });
+	},
+
+	displayTestData: function()
+	{
+		var methodDropdown = $('#methodDropdown').unbind().show();
+		var method = "";
+			methodDropdown.change(function(){
+				method = $(methodDropdown).find(":selected").text();
+				GetData(method);
+			});
+
+		function GetData(method)
+		{
+			//Make ajaxcall to the PHP script that retrieves the data.
+			$.ajax({
+			    type: "POST",
+			    url: "phpProxy.php",
+			    data: "url=localhost/exjobb/GetData?" + method,
+			    beforeSend: function()
+			    {
+			    	console.log('start');
+			    },
+			    success: function(data) {
+			    	data = JSON.parse(data);
+			    	console.log(data);
+			    },
+			    error: function(err) {
+			    	console.log('Error');
+			        console.log(err);
+			    },
+			    complete: function()
+			    {
+			    	console.log('done');
+			    }
+			});
+		}
 	}
 };
 

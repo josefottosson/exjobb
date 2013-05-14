@@ -109,6 +109,20 @@ class Service {
 		echo "Sparade i databasen";
 	}
 
+	public static function GetData($method)
+	{
+		$dbInfo = ConnectToDb();
+		$db = $dbInfo[0];
+		$conn = $dbInfo[1];
+		$collection = $db->selectCollection('testData');
+		$query = array( 'operation' => $method );
+		$cursor = $collection->find($query);
+		$testData = iterator_to_array($cursor);
+		//Create arrays to save the data in
+
+		echo json_encode($testData);
+	}
+
 
 }
 
