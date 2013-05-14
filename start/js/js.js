@@ -22,7 +22,7 @@ var myApp = {
 
 		$('#showDataLink').click(function(){
 			$('#appDropdown').hide();
-			myApp.displayTestData();
+			myApp.getTestData();
 		});
 	},
 
@@ -154,7 +154,7 @@ var myApp = {
 	},
 
 	createSingleChart: function(series, highest, lowest)
-	{
+	{	
 		$('#chartDiv').highcharts({
             chart: {
                 type: 'scatter',
@@ -216,7 +216,7 @@ var myApp = {
         });
 	},
 
-	displayTestData: function()
+	getTestData: function()
 	{
 		var methodDropdown = $('#methodDropdown').unbind().show();
 		var method = "";
@@ -238,7 +238,7 @@ var myApp = {
 			    },
 			    success: function(data) {
 			    	data = JSON.parse(data);
-			    	console.log(data);
+			    	myApp.createChart(data);
 			    },
 			    error: function(err) {
 			    	console.log('Error');
@@ -250,6 +250,133 @@ var myApp = {
 			    }
 			});
 		}
+	},
+
+	createChart: function(testData)
+	{
+	var node = [];
+	var rails = [];
+	var php = [];
+	var django = [];
+	var highest = 0;
+
+	$.each(testData, function(index, value) {
+  
+		if(value.app === "NODE")
+		{
+			node.push(value);
+		}
+		else if(value.app === "PHP")
+		{
+			php.push(value);
+		}
+		else if(value.app === "DJANGO")
+		{
+			django.push(value);
+		}
+		else
+		{
+			rails.push(value);
+		}
+
+		if(value.totalTime > highest)
+		{
+			highest = parseInt(value.totalTime);
+		}
+	});
+
+	$('#testOutput').highcharts({
+            chart: {
+                type: 'scatter',
+                marginRight: 130,
+                marginBottom: 25
+            },
+            title: {
+                text: 'Benchmark for ' + "TEST",
+                x: -20 //center
+            },
+            subtitle: {
+                text: 'Method: ' + "TEST",
+                x: -20
+            },
+            xAxis: {
+                title: {
+                    text: 'Round'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            yAxis: {
+            	min: 0,
+            	max: highest + 100,
+                title: {
+                    text: 'Time (ms)'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: 'ms'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -10,
+                y: 100,
+                borderWidth: 0
+            },
+            series : [{
+    			name : "NODE",
+			    data : (function() {
+			        var data = [];
+			        for(var j = 0; j < node.length; j++)
+			        {
+			        	data.push([parseInt(node[j].run), parseInt(node[j].totalTime)]);
+			        }                
+			        return data;
+			    })()
+			}, {
+    			name : "PHP",
+			    data : (function() {
+			        var data = [];
+			        for(var j = 0; j < php.length; j++)
+			        {
+			        	data.push([parseInt(php[j].run), parseInt(php[j].totalTime)]);
+			        }                
+			        return data;
+			    })()
+			},
+			{
+    			name : "DJANGO",
+			    data : (function() {
+			        var data = [];
+			        for(var j = 0; j < django.length; j++)
+			        {
+			        	data.push([parseInt(django[j].run), parseInt(django[j].totalTime)]);
+			        }                
+			        return data;
+			    })()
+			},
+			{
+    			name : "RAILS",
+			    data : (function() {
+			        var data = [];
+			        for(var j = 0; j < rails.length; j++)
+			        {
+			        	data.push([parseInt(rails[j].run), parseInt(rails[j].totalTime)]);
+			        }                
+			        return data;
+			    })()
+			}]
+        });
+
 	}
 };
 
