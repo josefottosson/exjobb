@@ -238,7 +238,8 @@ var myApp = {
 			    },
 			    success: function(data) {
 			    	data = JSON.parse(data);
-			    	myApp.createChart(data);
+			    	data = myApp.prepareDataForMultipleSeries(data);
+			    	myApp.createMultipleSeriesChart(data);
 			    },
 			    error: function(err) {
 			    	console.log('Error');
@@ -252,51 +253,63 @@ var myApp = {
 		}
 	},
 
-	createChart: function(testData)
+	prepareDataForMultipleSeries: function(testData)
 	{
-	var node = [];
-	var rails = [];
-	var php = [];
-	var django = [];
-	var highest = 0;
+	//it feels very dry to have two simillar functions but its the only way to add multiple series in highcharts...
+		$('#testOutput').empty();
+		var node = [];
+		var rails = [];
+		var php = [];
+		var django = [];
+		var highest = 0;
+		var data = [];
 
-	$.each(testData, function(index, value) {
-  
-		if(value.app === "NODE")
-		{
-			node.push(value);
-		}
-		else if(value.app === "PHP")
-		{
-			php.push(value);
-		}
-		else if(value.app === "DJANGO")
-		{
-			django.push(value);
-		}
-		else
-		{
-			rails.push(value);
-		}
+		$.each(testData, function(index, value) {
+	  
+			if(value.app === "NODE")
+			{
+				node.push(value);
+			}
+			else if(value.app === "PHP")
+			{
+				php.push(value);
+			}
+			else if(value.app === "DJANGO")
+			{
+				django.push(value);
+			}
+			else
+			{
+				rails.push(value);
+			}
 
-		if(value.totalTime > highest)
-		{
-			highest = parseInt(value.totalTime);
-		}
-	});
+			if(value.totalTime > highest)
+			{
+				highest = parseInt(value.totalTime);
+			}
+		});
+		data.rails = rails;
+		data.django = django;
+		data.node = node;
+		data.php = php;
+		data.highest = highest;
+		return data;
+	},
 
-	$('#testOutput').highcharts({
+	createMultipleSeriesChart: function(testData)
+	{
+		$('#testOutput').highcharts({
             chart: {
                 type: 'scatter',
                 marginRight: 130,
                 marginBottom: 25
             },
             title: {
-                text: 'Benchmark for ' + "TEST",
+                text: 'Benchmark for ' + "PHP, Node, Django and Rails",
                 x: -20 //center
             },
             subtitle: {
-                text: 'Method: ' + "TEST",
+                text: 'Method: ' + testData.node[0].operation,
                 x: -20
             },
             xAxis: {
@@ -311,7 +324,7 @@ var myApp = {
             },
             yAxis: {
             	min: 0,
-            	max: highest + 100,
+            	max: testData.highest + 50,
                 title: {
                     text: 'Time (ms)'
                 },
@@ -336,9 +349,9 @@ var myApp = {
     			name : "NODE",
 			    data : (function() {
 			        var data = [];
-			        for(var j = 0; j < node.length; j++)
+			        for(var j = 0; j < testData.node.length; j++)
 			        {
-			        	data.push([parseInt(node[j].run), parseInt(node[j].totalTime)]);
+			        	data.push([parseInt(testData.node[j].run), parseInt(testData.node[j].totalTime)]);
 			        }                
 			        return data;
 			    })()
@@ -346,9 +359,9 @@ var myApp = {
     			name : "PHP",
 			    data : (function() {
 			        var data = [];
-			        for(var j = 0; j < php.length; j++)
+			        for(var j = 0; j < testData.php.length; j++)
 			        {
-			        	data.push([parseInt(php[j].run), parseInt(php[j].totalTime)]);
+			        	data.push([parseInt(testData.php[j].run), parseInt(testData.php[j].totalTime)]);
 			        }                
 			        return data;
 			    })()
@@ -357,9 +370,9 @@ var myApp = {
     			name : "DJANGO",
 			    data : (function() {
 			        var data = [];
-			        for(var j = 0; j < django.length; j++)
+			        for(var j = 0; j < testData.django.length; j++)
 			        {
-			        	data.push([parseInt(django[j].run), parseInt(django[j].totalTime)]);
+			        	data.push([parseInt(testData.django[j].run), parseInt(testData.django[j].totalTime)]);
 			        }                
 			        return data;
 			    })()
@@ -368,15 +381,14 @@ var myApp = {
     			name : "RAILS",
 			    data : (function() {
 			        var data = [];
-			        for(var j = 0; j < rails.length; j++)
+			        for(var j = 0; j < testData.rails.length; j++)
 			        {
-			        	data.push([parseInt(rails[j].run), parseInt(rails[j].totalTime)]);
+			        	data.push([parseInt(testData.rails[j].run), parseInt(testData.rails[j].totalTime)]);
 			        }                
 			        return data;
 			    })()
 			}]
         });
-
 	}
 };
 
