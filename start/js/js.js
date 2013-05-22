@@ -93,6 +93,8 @@ var myApp = {
 					row.run = i+1;
 					row.date = new Date();
 				    testOutput.prepend('<p>Round '+(i+1)+' done</p>' + '<p>Total time: <strong>' + totalTime + 'ms</strong>' + "</p>");
+				    //PHP Proxyn tar emot en array när insättningen till DB ska ske. 
+				    //MONGODB har en gräns på 200 inserts som standard, TODO, kör batch insättningar istället för varje runda.
 				    objectArray.push(row);
 				    times.push(row);
 				    myApp.saveToDb(objectArray);
@@ -255,8 +257,9 @@ var myApp = {
 
 	prepareDataForMultipleSeries: function(testData)
 	{
-	//it feels very dry to have two simillar functions but its the only way to add multiple series in highcharts...
+	//Känns DRY att ha två liknande funktioner men enda sättet att få Highcharts att använda flera series.
 		$('#testOutput').empty();
+		$('#averageTime').empty();
 		var node = [];
 		var rails = [];
 		var php = [];
@@ -349,20 +352,29 @@ var myApp = {
     			name : "NODE",
 			    data : (function() {
 			        var data = [];
+			        var sum = 0;
 			        for(var j = 0; j < testData.node.length; j++)
 			        {
+			        	sum += parseInt(testData.node[j].totalTime);
 			        	data.push([parseInt(testData.node[j].run), parseInt(testData.node[j].totalTime)]);
-			        }                
+			        }  
+			        var avg = parseInt(sum/testData.node.length);
+			        $('#averageTime').append("Averagetime: " + avg + "ms" + " - Node<br/>");
+
 			        return data;
 			    })()
 			}, {
     			name : "PHP",
 			    data : (function() {
 			        var data = [];
+			        var sum = 0;
 			        for(var j = 0; j < testData.php.length; j++)
 			        {
+			        	sum += parseInt(testData.php[j].totalTime);
 			        	data.push([parseInt(testData.php[j].run), parseInt(testData.php[j].totalTime)]);
-			        }                
+			        }
+			        var avg = parseInt(sum/testData.php.length);
+			        $('#averageTime').append("Averagetime: " + avg + "ms" + " - PHP<br/>");                
 			        return data;
 			    })()
 			},
@@ -370,10 +382,14 @@ var myApp = {
     			name : "DJANGO",
 			    data : (function() {
 			        var data = [];
+			        var sum = 0;
 			        for(var j = 0; j < testData.django.length; j++)
 			        {
+			        	sum += parseInt(testData.django[j].totalTime);
 			        	data.push([parseInt(testData.django[j].run), parseInt(testData.django[j].totalTime)]);
-			        }                
+			        }
+			        var avg = parseInt(sum/testData.django.length);
+			        $('#averageTime').append("Averagetime: " + avg + "ms" + " - Django<br/>");                
 			        return data;
 			    })()
 			},
@@ -381,15 +397,21 @@ var myApp = {
     			name : "RAILS",
 			    data : (function() {
 			        var data = [];
+			        var sum = 0;
 			        for(var j = 0; j < testData.rails.length; j++)
 			        {
+			        	sum += parseInt(testData.rails[j].totalTime);
 			        	data.push([parseInt(testData.rails[j].run), parseInt(testData.rails[j].totalTime)]);
-			        }                
+			        } 
+			      	var avg = parseInt(sum/testData.rails.length);
+			        $('#averageTime').append("Averagetime: " + avg + "ms" + " - Rails");               
 			        return data;
 			    })()
 			}]
         });
 	}
 };
+
+
 
 window.onload = myApp.init;
