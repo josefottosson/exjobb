@@ -62,7 +62,7 @@ class Service {
 	{
 		$file = 'exjobb.json';
 		$file_contents = file_get_contents($file);
-		$file_contents = preg_replace('/,\s"_id"\:\s"\d*"/',"", $file_contents);
+		$file_contents = preg_replace('/"_id"/','"id"', $file_contents);
 		file_put_contents('exjobb2.json',$file_contents);
 		echo "File read and saved as new";
 		//return "File read";

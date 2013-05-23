@@ -55,3 +55,7 @@ def SelectAndUpdate(request):
 
 		city.save(city)
 	return HttpResponse('Select and update done')
+
+def Test(request):
+
+	return HttpResponse("Tests done")
