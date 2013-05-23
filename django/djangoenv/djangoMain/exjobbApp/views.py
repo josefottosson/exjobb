@@ -28,6 +28,7 @@ def CalculateModulus(request):
 		if i % 3 == 0:
 			numbers.append(i)
 
+	numbers = []
 	return HttpResponse('Modulus Done')
 
 def ReadFile(request):

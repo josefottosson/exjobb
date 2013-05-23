@@ -15,7 +15,8 @@ class Service {
 		$cities = iterator_to_array($cursor);
 		$cities = json_encode($cities);
 		CloseDb($conn);
-		return $cities;
+		echo $cities;
+		//return $cities;
 	}
 
 	public static function GetAllCitiesWhere() 
@@ -32,7 +33,8 @@ class Service {
 		$cities = iterator_to_array($cursor);
 		$cities = json_encode($cities);
 		CloseDb($conn);
-		return $cities;
+		echo $cities;
+		//return $cities;
 	}
 
 	public static function CalculateModulus()
@@ -46,7 +48,8 @@ class Service {
 				$numbers[] = $i;
 			}
 		}
-		return $numbers;
+		echo count($numbers) . " returnerade";
+		//return $numbers;
 	}
 
 	public static function ReadFile()
@@ -62,7 +65,7 @@ class Service {
 		$file_contents = preg_replace('/,\s"_id"\:\s"\d*"/',"", $file_contents);
 		file_put_contents('exjobb2.json',$file_contents);
 		echo "File read and saved as new";
-		return "File read";
+		//return "File read";
 	}
 
 	public static function SelectAndUpdate()
@@ -91,7 +94,8 @@ class Service {
 		}
 
 		CloseDb($conn);
-		return "Select And Update Done";
+		echo "Select And Update done";
+		//return "Select And Update Done";
 	}
 
 	public static function SaveToDb($postData)
@@ -130,6 +134,8 @@ class Service {
 
 	public static function Test()
 	{
+		echo "<h2>ÄNDRA CONTROLLERMETODERNA TILL RETURN ISTÄLLET FÖR ECHO INNAN TESTEN.</h2><br/>";
+
 		echo "Test av GetAllCities - Skall returnera 29470 rader<br/>";
 		$cities = Service::GetAllCities();
 		$citiesArray = json_decode($cities, true);
@@ -163,26 +169,27 @@ class Service {
 			echo "Testet failade";
 		}
 
-		//Välj första raden från databasen.
 		echo "Test av SelectAndUpdate - Staden skall bli lower/uppercase<br/>";
 		$dbInfo = ConnectToDb();
 		$db = $dbInfo[0];
 		$conn = $dbInfo[1];
 		$collection = $db->selectCollection('cities');
-
+		//Välj en rad ifrån databasen med befolkning under 10000
 		$query = array( 'population' => array( '$lt' => 10000 ) );
 		$cursor = $collection->findOne( $query );
-
+		//Spara första staden
 		$city = json_decode(json_encode($cursor));
 
+		//Kör SelectAndUpdate
 		echo "Kör SelectAndUpdate <br/>";
 		Service::SelectAndUpdate();
 
 		$cursor = $collection->findOne( $query );
 		CloseDb($conn);
-
+		//Spara andra staden
 		$city2 = json_decode(json_encode($cursor));
 
+		//Kolla om staden har ändrats till Uppercase/lowercase
 		if($city->city == strtolower($city->city))
 		{
 			if($city2->city == strtoupper($city2->city))

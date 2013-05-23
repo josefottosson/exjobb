@@ -97,7 +97,7 @@ var myApp = {
 				    //MONGODB har en gräns på 200 inserts som standard, TODO, kör batch insättningar istället för varje runda.
 				    objectArray.push(row);
 				    times.push(row);
-				    myApp.saveToDb(objectArray);
+				    //myApp.saveToDb(objectArray);
 				    objectArray = [];
 			    },
 			    error: function(err) {
@@ -359,7 +359,7 @@ var myApp = {
 			        	data.push([parseInt(testData.node[j].run), parseInt(testData.node[j].totalTime)]);
 			        }  
 			        var avg = parseInt(sum/testData.node.length);
-			        $('#averageTime').append("Averagetime: " + avg + "ms" + " - Node<br/>");
+			        $('#averageTime').append("Node: " + avg + "ms" + "<br/>");
 
 			        return data;
 			    })()
@@ -374,7 +374,7 @@ var myApp = {
 			        	data.push([parseInt(testData.php[j].run), parseInt(testData.php[j].totalTime)]);
 			        }
 			        var avg = parseInt(sum/testData.php.length);
-			        $('#averageTime').append("Averagetime: " + avg + "ms" + " - PHP<br/>");                
+			        $('#averageTime').append("PHP: " + avg + "ms" + "<br/>");                
 			        return data;
 			    })()
 			},
@@ -389,7 +389,7 @@ var myApp = {
 			        	data.push([parseInt(testData.django[j].run), parseInt(testData.django[j].totalTime)]);
 			        }
 			        var avg = parseInt(sum/testData.django.length);
-			        $('#averageTime').append("Averagetime: " + avg + "ms" + " - Django<br/>");                
+			        $('#averageTime').append("Django: " + avg + "ms" + "<br/>");                
 			        return data;
 			    })()
 			},
@@ -404,14 +404,12 @@ var myApp = {
 			        	data.push([parseInt(testData.rails[j].run), parseInt(testData.rails[j].totalTime)]);
 			        } 
 			      	var avg = parseInt(sum/testData.rails.length);
-			        $('#averageTime').append("Averagetime: " + avg + "ms" + " - Rails");               
+			        $('#averageTime').append("Rails: " + avg + "ms");               
 			        return data;
 			    })()
 			}]
         });
 	}
 };
-
-
 
 window.onload = myApp.init;

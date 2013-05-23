@@ -57,5 +57,9 @@ class HomeController < ApplicationController
     end
     render :text => "Selected and updated done"
   end
+
+  def Test
+    
+  end
 end
   

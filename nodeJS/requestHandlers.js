@@ -128,6 +128,11 @@ function SelectAndUpdate(response)
 
 }
 
+function Test(response)
+{
+
+}
+
 //sets handlers to corresponding method
 exports.start = start;
 exports.GetAllCities = GetAllCities;
@@ -136,3 +141,4 @@ exports.CalculateModulus = CalculateModulus;
 exports.ReadFile = ReadFile;
 exports.ReadAndSaveNew = ReadAndSaveNew
 exports.SelectAndUpdate = SelectAndUpdate;
+exports.Test = Test;

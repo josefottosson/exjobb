@@ -12,5 +12,6 @@ handle["/CalculateModulus"] = requestHandlers.CalculateModulus;
 handle["/ReadFile"] = requestHandlers.ReadFile;
 handle["/ReadAndSaveNew"] = requestHandlers.ReadAndSaveNew;
 handle["/SelectAndUpdate"] = requestHandlers.SelectAndUpdate;
+handle["/Test"] = requestHandlers.Test;
 
 server.start(router.route, handle);
