@@ -39,14 +39,9 @@ Kör sedan följande kommando i din rails mapp (rails generate mongoid:config)
 
 <h3>TestAppen</h3>
 Starta servern för de applikationerna du vill testa<br/>
-Själva testappen ligger placerad i start/index.html
-Applikationen tar två queryvariabler, APP och METOD.
-Exempel: <br />
-För att hämta alla rader från databasen med hjälp av PHP: <br/>
-<i>http://localhost/start?php&GetAllCities</i><br/>
-Rails = <i>http://localhost/start?rails&GetAllCities</i> <br/>
-Django = <i>http://localhost/start?django&GetAllCities</i> <br/>
-NodeJS = <i>http://localhost/start?node&GetAllCities</i> <br/>
+Själva testappen ligger placerad i start/index.html<br/>
+Välj önskat språk + metod i dropdown menyn. <br/>
+
 
 Kontrollera i start/js/js.js, du kan behöva konfigurera om de urler(portnummer) som finns så att det pekar mot rätt serveraddress för dina lokala servrar.
 <h4>Metoder</h4>
