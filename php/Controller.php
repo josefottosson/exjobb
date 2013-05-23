@@ -54,6 +54,10 @@ class Controller {
 			Service::GetData($method);
 			break;
 
+			case "Test":
+			Service::Test();
+			break;
+
 			default:
 				echo "FELAKTIG REQUEST";
 				break;

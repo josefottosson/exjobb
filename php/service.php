@@ -15,7 +15,7 @@ class Service {
 		$cities = iterator_to_array($cursor);
 		$cities = json_encode($cities);
 		CloseDb($conn);
-		echo $cities; 
+		return $cities;
 	}
 
 	public static function GetAllCitiesWhere() 
@@ -32,7 +32,7 @@ class Service {
 		$cities = iterator_to_array($cursor);
 		$cities = json_encode($cities);
 		CloseDb($conn);
-		echo $cities; 
+		return $cities;
 	}
 
 	public static function CalculateModulus()
@@ -46,13 +46,13 @@ class Service {
 				$numbers[] = $i;
 			}
 		}
-		echo "Modulus klar: " + count($numbers);
+		return $numbers;
 	}
 
 	public static function ReadFile()
 	{
 		$file = file_get_contents("exjobb.json");
-		echo "Fil läst";
+		echo "File read";
 	}
 
 	public static function ReadAndSaveNew()
@@ -61,6 +61,8 @@ class Service {
 		$file_contents = file_get_contents($file);
 		$file_contents = preg_replace('/,\s"_id"\:\s"\d*"/',"", $file_contents);
 		file_put_contents('exjobb2.json',$file_contents);
+		echo "File read and saved as new";
+		return "File read";
 	}
 
 	public static function SelectAndUpdate()
@@ -89,7 +91,7 @@ class Service {
 		}
 
 		CloseDb($conn);
-		echo "Select And Update Done";
+		return "Select And Update Done";
 	}
 
 	public static function SaveToDb($postData)
@@ -115,14 +117,99 @@ class Service {
 		$db = $dbInfo[0];
 		$conn = $dbInfo[1];
 		$collection = $db->selectCollection('testData');
+		//Query som letar efter en method med både methodnamnet + methodnamnet med ett slash(Djangofix)
 		$query = array('$or' => array(
-  array("operation" => $method),
-  array("operation" => $method . "/")
-));
+  			array("operation" => $method),
+  			array("operation" => $method . "/")
+		));
 		$cursor = $collection->find($query);
 		$testData = iterator_to_array($cursor);
 
 		echo json_encode($testData);
+	}
+
+	public static function Test()
+	{
+		echo "Test av GetAllCities - Skall returnera 29470 rader<br/>";
+		$cities = Service::GetAllCities();
+		$citiesArray = json_decode($cities, true);
+		if(count($citiesArray) == 29470)
+		{
+			echo count($citiesArray) . " rader returnerade SUCCESS<br/>";
+		}
+		else
+		{
+			echo "Testet failade";
+		}
+		echo "Test av GetAllCitiesWhere - Skall returnera 567 rader<br/>";
+		$cities = Service::GetAllCitiesWhere();
+		$citiesArray = json_decode($cities, true);
+		if(count($citiesArray) == 567)
+		{
+			echo count($citiesArray) . " rader returnerade SUCCESS <br/>";
+		}
+		else
+		{
+			echo "Testet failade";
+		}
+		echo "Test av CalculateModulus - Skall returnera en array med 3333334 element<br/>";
+		$numbers = Service::CalculateModulus();
+		if(count($numbers) == 3333334)
+		{
+			echo count($numbers) . " array returnerad SUCCESS<br/>";
+		}
+		else
+		{
+			echo "Testet failade";
+		}
+
+		//Välj första raden från databasen.
+		echo "Test av SelectAndUpdate - Staden skall bli lower/uppercase<br/>";
+		$dbInfo = ConnectToDb();
+		$db = $dbInfo[0];
+		$conn = $dbInfo[1];
+		$collection = $db->selectCollection('cities');
+
+		$query = array( 'population' => array( '$lt' => 10000 ) );
+		$cursor = $collection->findOne( $query );
+
+		$city = json_decode(json_encode($cursor));
+
+		echo "Kör SelectAndUpdate <br/>";
+		Service::SelectAndUpdate();
+
+		$cursor = $collection->findOne( $query );
+		CloseDb($conn);
+
+		$city2 = json_decode(json_encode($cursor));
+
+		if($city->city == strtolower($city->city))
+		{
+			if($city2->city == strtoupper($city2->city))
+			{
+				echo $city->city . "</br>";
+				echo $city2->city;
+				echo " SUCCESS";
+			}
+			else
+			{
+				echo "Test failade";
+			}
+		}
+		else
+		{
+			if($city2->city == strtolower($city2->city))
+			{
+				echo $city->city . "</br>";
+				echo $city2->city;
+				echo " SUCCESS";
+			}
+			else
+			{
+				echo "Test failade";
+			}
+		}
+
 	}
 
 
