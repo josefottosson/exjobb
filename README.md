@@ -11,10 +11,6 @@ Starta terminalen i MongoDB-mappen i repon. </br>
 Kör följande kommando <br/>
 <i>mongoimport --db exjobb --collection cities --file exjobb.json</i>
 
-För django gäller följande kommando <br/>
-<i>mongoimport --db exjobb --collection exjobbApp_city --file exjobb.json</i> <br/>
-Då skapas en ny collection med samma data. Det är en tillfällig workaround tills man kan ändra collection i Django, eller tills jag har kommit på hur man gör rättare sagt.
-
 <h3>Konfiguration</h3>
 Följande bibliotek/moduler etc har använts för de olika applikationerna
 <h4>Django</h4>
