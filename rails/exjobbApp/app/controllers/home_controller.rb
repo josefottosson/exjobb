@@ -27,7 +27,7 @@ class HomeController < ApplicationController
 
   def ReadFile
     file = File.read('exjobb.json')
-    render :text => "Läst klart<br/>" + file.length.to_s
+    render :text => "Läst klart<br/>"
   end
 
   def ReadAndSaveNew

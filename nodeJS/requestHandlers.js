@@ -77,9 +77,12 @@ function ReadFile(response)
   if (err) {
     return console.log(err);
   }
+  else
+  {
     response.writeHead(200, {"Content-Type": "application/json"});
     response.write("Fil läst: <br/>");
     response.end();
+  }
   });
 }
 
@@ -106,7 +109,7 @@ function SelectAndUpdate(response)
   var db = require("mongojs").connect(databaseUrl, collections);
   //Select all cities with a population less than 10 000
   db.cities.find({population: {$lt: 10000}}, function(err, cities){
-    console.log(cities[0].city);
+    console.log(cities[0]);
     for(var i = 0; i < cities.length; i++)
     {
       //Check if city name is upperCase, if so, change to lowercase
