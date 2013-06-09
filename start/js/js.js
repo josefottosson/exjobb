@@ -1,11 +1,13 @@
 var myApp = {
 
 	init: function()
-	{
+	{	// Creates the dropdowns.
 		var methodDropdown = $('#methodDropdown').hide();
 		var startTest = $('#startTest').hide();
 		var app = "";
 		var method = "";
+
+		// Some logic, show/hide dropdowns depending on user interaction.
 		$('#appDropdown').change(function(){
 			app = $('#appDropdown').find(":selected").text();
 			methodDropdown.show();
@@ -36,7 +38,7 @@ var myApp = {
 		var i = 0;
 		var highest = 0;
 		var lowest = 100000;
-
+		var testRounds = 1000;
 		var urlToCall = "";
 
 		switch(app)
@@ -49,7 +51,7 @@ var myApp = {
 		  break;
 		case "DJANGO":
 		  urlToCall = "http://127.0.0.1:8000/";
-		  //Lägger till ett slash på slutet eftersom Django kräver det för liknande requests
+		  //Appends a slash if Django because django doesn't like urls without an slash at the end
 		  method += "/";
 		  break;
 		case "NODE":
@@ -86,6 +88,7 @@ var myApp = {
 				    {
 				    	lowest = totalTime;
 				    }
+				    // Creates an row object, for inserting in the DB:
 				   	var row = {};
 					row.app = app;
 					row.operation = method;
@@ -93,11 +96,13 @@ var myApp = {
 					row.run = i+1;
 					row.date = new Date();
 				    testOutput.prepend('<p>Round '+(i+1)+' done</p>' + '<p>Total time: <strong>' + totalTime + 'ms</strong>' + "</p>");
-				    //PHP Proxyn tar emot en array när insättningen till DB ska ske. 
-				    //MONGODB har en gräns på 200 inserts som standard, TODO, kör batch insättningar istället för varje runda.
+				    // The PHP proxy takes an array when performing the insert query to the DB 
+				    //MONGODB has an 200 rows limit as standard when performing insert operations
+				    // TODO - Insert data every 200 rows instead of one at a time
 				    objectArray.push(row);
 				    times.push(row);
-				    //myApp.saveToDb(objectArray);
+				    myApp.saveToDb(objectArray);
+				    //Emptys the objectarray because we are inserting data every round, TODO - Add logic for insert every 200 round.
 				    objectArray = [];
 			    },
 			    error: function(err) {
@@ -107,10 +112,12 @@ var myApp = {
 			    complete: function()
 			    {
 			    	i++;
-			    	if(i < 1000)
+			    	// Call yourself as long as i is less than number of testRounds.
+			    	if(i < testRounds)
 			    	{
 			    		makeCall(urlToCall, method);
 					}
+					// When the test is done, make some calculations and present a chart.
 					else
 					{
 						var sum = 0;
@@ -155,6 +162,7 @@ var myApp = {
 
 	},
 
+	//Creates the chart that displays after a testround
 	createSingleChart: function(series, highest, lowest)
 	{	
 		$('#chartDiv').highcharts({
@@ -217,7 +225,7 @@ var myApp = {
 			}]
         });
 	},
-
+	// Gets data from the DB
 	getTestData: function()
 	{
 		var methodDropdown = $('#methodDropdown').unbind().show();
@@ -255,9 +263,9 @@ var myApp = {
 		}
 	},
 
+	//Feels DRY but this is the only way to do it when using HighCharts and multiple Series.
 	prepareDataForMultipleSeries: function(testData)
 	{
-	//Känns DRY att ha två liknande funktioner men enda sättet att få Highcharts att använda flera series.
 		$('#testOutput').empty();
 		$('#averageTime').empty();
 		var node = [];
@@ -298,7 +306,7 @@ var myApp = {
 		data.highest = highest;
 		return data;
 	},
-
+	//Creates the chart when viewing testdata for a function
 	createMultipleSeriesChart: function(testData)
 	{
 		$('#testOutput').highcharts({
