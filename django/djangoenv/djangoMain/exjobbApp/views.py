@@ -24,6 +24,7 @@ def CalculateModulus(request):
 	
 	numbers = []
 	i = 0
+	# Loops 10 million times
 	for i in range(10000000):
 		if i % 3 == 0:
 			numbers.append(i)
@@ -46,7 +47,7 @@ def ReadAndSaveNew(request):
 	return HttpResponse('Read and Save done')
 
 def SelectAndUpdate(request):
-
+	# Selects all cities with a population less than 10 000
 	for city in City.objects.all().filter(population__lt=10000):
 		if city.city == city.city.upper():
 			city.city = city.city.lower()

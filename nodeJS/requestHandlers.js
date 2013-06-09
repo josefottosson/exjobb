@@ -73,6 +73,7 @@ function CalculateModulus(response)
 function ReadFile(response)
 {
   fs = require('fs')
+  //Reads the file
   fs.readFile('exjobb.json', 'utf8', function (err,data) {
   if (err) {
     return console.log(err);

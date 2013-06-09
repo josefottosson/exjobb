@@ -2,6 +2,7 @@
 require_once('Service.php');
 class Controller {
 
+	# Simple Router
 	public function doControll($method, $server) {
 
 		if(isset($server["PATH_INFO"])) {
@@ -11,6 +12,7 @@ class Controller {
 			$queryString = $server["QUERY_STRING"];
 		}
 
+		# Checks which url to route to - default = bad request
 		$type = $_SERVER["REQUEST_URI"];
 		$fields = $_SERVER["REQUEST_URI"];
 		$params = explode("/", $queryString);

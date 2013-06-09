@@ -3,7 +3,9 @@ class HomeController < ApplicationController
   end
 
   def GetAllCities
+    # Gets all cities as an array
   	cities = City.all.to_a
+    # Render as Json, using Oj, the fastest json parser for Rails.
     render :json => Oj.dump(cities, mode: :compat)
   end
 
@@ -15,6 +17,7 @@ class HomeController < ApplicationController
   def CalculateModulus
 
     numbers = []
+    # Loops 10 million times.
     10000000.times do |index|
       
       if index % 3 == 0
